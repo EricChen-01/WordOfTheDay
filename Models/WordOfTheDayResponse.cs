@@ -14,11 +14,8 @@ public record WordOfTheDayResponse
     [JsonProperty("furigana")]
     public required string Furigana { get; init; }
 
-    [JsonProperty("romaji")]
-    public required string Romaji { get; init; }
-
     [JsonProperty("level")]
-    public required int Level { get; init; }
+    public required string Level { get; init; }
 
     [JsonProperty("partsOfSpeech")]
     public required List<string> PartsOfSpeech { get; init; }
