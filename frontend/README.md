@@ -1,16 +1,28 @@
-# React + Vite
+# Word of the Day
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A daily Japanese vocabulary app. A backend job pre-generates a word each day and stores it; the frontend fetches and displays it.
 
-Currently, two official plugins are available:
+## Visit live site
+https://wordoftheday.ericgchen.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Running locally
 
-## React Compiler
+### Frontend
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Create a `.env.development` file in `/frontend` with:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+VITE_API_URL=http://localhost:7071
+```
+
+(Port depends on whatever `func start` binds to — check the terminal output.)
+
+## Deployment
+
+Make changes to the front end and merge into main will result in auto deployment. 

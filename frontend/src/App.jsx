@@ -15,7 +15,6 @@ import {
 import "./App.css"
 
 const API_URL = import.meta.env.VITE_API_URL || "https://wordoftheday.azurewebsites.net/api/WordOfTheDay"
-console.log("API_URL:", API_URL)
 
 function getLocalDate() {
   const now = new Date()
@@ -30,6 +29,25 @@ function formatLevel(level) {
   if (!level) return null
   const match = level.match(/n[1-5]/i)
   return match ? match[0].toUpperCase() : level
+}
+
+function getNextUTCMidnightLocalTime() {
+  const now = new Date();
+  const nextUTCMidnight = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1, // rolls over month/year automatically
+      0, 0, 0, 0
+    )
+  );
+
+  // Date object is UTC internally, but toLocaleTimeString renders it
+  // in the browser's local timezone automatically
+  return nextUTCMidnight.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 function App() {
@@ -79,6 +97,9 @@ function App() {
               month: "long",
               day: "numeric",
             })}
+          </Text>
+          <Text fontSize="xs" color="ai.400">
+            New word at {getNextUTCMidnightLocalTime()}
           </Text>
         </Flex>
 
