@@ -15,7 +15,6 @@ import {
 import "./App.css"
 
 const API_URL = import.meta.env.VITE_API_URL || "https://wordoftheday.azurewebsites.net/api/WordOfTheDay"
-console.log("API_URL:", API_URL)
 
 function getLocalDate() {
   const now = new Date()
