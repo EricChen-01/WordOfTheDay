@@ -32,6 +32,25 @@ function formatLevel(level) {
   return match ? match[0].toUpperCase() : level
 }
 
+function getNextUTCMidnightLocalTime() {
+  const now = new Date();
+  const nextUTCMidnight = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1, // rolls over month/year automatically
+      0, 0, 0, 0
+    )
+  );
+
+  // Date object is UTC internally, but toLocaleTimeString renders it
+  // in the browser's local timezone automatically
+  return nextUTCMidnight.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
 function App() {
   const [word, setWord] = useState(null)
   const [status, setStatus] = useState("loading") // loading | success | error
@@ -79,6 +98,9 @@ function App() {
               month: "long",
               day: "numeric",
             })}
+          </Text>
+          <Text fontSize="xs" color="ai.400">
+            New word at {getNextUTCMidnightLocalTime()}
           </Text>
         </Flex>
 
