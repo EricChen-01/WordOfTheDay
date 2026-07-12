@@ -66,8 +66,8 @@ public class WordOfTheDay
         {
             Word = wordOfTheDay,
             Meaning = string.Join(", ", firstSense.EnglishDefinitions),
-            Furigana = jishoData.Japanese.FirstOrDefault()?.Reading ?? "Not Available. Please contact support.",
-            Level = jishoData.Jlpt.FirstOrDefault() ?? "Not Available. Please contact support.",
+            Furigana = jishoData.Japanese.FirstOrDefault()?.Reading ?? "Not Available.",
+            Level = jishoData.Jlpt.FirstOrDefault() ?? "Not Available.",
             PartsOfSpeech = firstSense.PartsOfSpeech 
         };
 
