@@ -99,7 +99,7 @@ function App() {
             })}
           </Text>
           <Text fontSize="xs" color="ai.400">
-            New word at {getNextUTCMidnightLocalTime()}
+            New word at {getNextUTCMidnightLocalTime()} your time
           </Text>
         </Flex>
 
