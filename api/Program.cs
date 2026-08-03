@@ -16,6 +16,7 @@ builder.ConfigureFunctionsWebApplication();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<JlptVocabClient>();
 builder.Services.AddHttpClient<JishoClient>();
+builder.Services.AddHttpClient<TatoebaClient>();
 
 builder.Services.AddSingleton(_ =>
 {

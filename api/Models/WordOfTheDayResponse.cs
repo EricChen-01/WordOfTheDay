@@ -19,4 +19,14 @@ public record WordOfTheDayResponse
 
     [JsonProperty("partsOfSpeech")]
     public required List<string> PartsOfSpeech { get; init; }
+
+    [JsonProperty("exampleSentences")]
+    /// first is japanese sentence, second is english translation
+    public required List<ExampleSentenceResponse> ExampleSentences { get; init; }
+}
+
+public sealed class ExampleSentenceResponse
+{
+    public string Japanese { get; set; } = string.Empty;
+    public string English { get; set; } = string.Empty;
 }

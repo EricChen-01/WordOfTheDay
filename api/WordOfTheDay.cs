@@ -14,13 +14,20 @@ public class WordOfTheDay
     private readonly ILogger<WordOfTheDay> _logger;
     private readonly JlptVocabClient _jlptVocabClient;
     private readonly JishoClient _jishoClient;
+    private readonly TatoebaClient _tatoebaClient;
     private readonly TableClient _tableClient;
 
-    public WordOfTheDay(ILoggerFactory loggerFactory, JlptVocabClient jlptVocabClient, JishoClient jishoClient, TableClient tableClient)
+    public WordOfTheDay(
+        ILoggerFactory loggerFactory, 
+        JlptVocabClient jlptVocabClient, 
+        JishoClient jishoClient,
+        TatoebaClient tatoebaClient, 
+        TableClient tableClient)
     {
         _logger = loggerFactory.CreateLogger<WordOfTheDay>();
         _jlptVocabClient = jlptVocabClient;
         _jishoClient = jishoClient;
+        _tatoebaClient = tatoebaClient;
         _tableClient = tableClient;
     }
 
@@ -62,13 +69,20 @@ public class WordOfTheDay
             return new StatusCodeResult(StatusCodes.Status502BadGateway);
         }
 
+        var exampleSentences = await _tatoebaClient.GetExampleSentencesAsync(wordOfTheDay, 2);
+
         var response = new WordOfTheDayResponse
         {
             Word = wordOfTheDay,
             Meaning = string.Join(", ", firstSense.EnglishDefinitions),
-            Furigana = jishoData.Japanese.FirstOrDefault()?.Reading ?? "Not Available. Please contact support.",
-            Level = jishoData.Jlpt.FirstOrDefault() ?? "Not Available. Please contact support.",
-            PartsOfSpeech = firstSense.PartsOfSpeech 
+            Furigana = jishoData.Japanese.FirstOrDefault()?.Reading ?? "Not Available.",
+            Level = jishoData.Jlpt.FirstOrDefault() ?? "Not Available.",
+            PartsOfSpeech = firstSense.PartsOfSpeech,
+            ExampleSentences = [.. exampleSentences.Select(s => new ExampleSentenceResponse
+            {
+                Japanese = s.Text,
+                English = s.Translations.FirstOrDefault()?.Text ?? string.Empty
+            })]
         };
 
         return new OkObjectResult(response);

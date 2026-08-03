@@ -99,7 +99,7 @@ function App() {
             })}
           </Text>
           <Text fontSize="xs" color="ai.400">
-            New word at {getNextUTCMidnightLocalTime()}
+            New word at {getNextUTCMidnightLocalTime()} your time
           </Text>
         </Flex>
 
@@ -166,6 +166,34 @@ function App() {
                     </Badge>
                   ))}
                 </HStack>
+              )}
+
+              {word.exampleSentences && word.exampleSentences.length > 0 && (
+                <>
+                  <Separator my={6} borderColor="ai.100" />
+                  <Text fontSize="xs" color="ai.400" fontWeight="semibold" letterSpacing="wide" mb={2}>Example Sentences</Text>
+                  <VStack gap={4} align="stretch">
+                    {word.exampleSentences.map((sentence, i) => (
+                      <Box key={i} textAlign="left" borderLeft="2px solid" borderColor="ai.100" pl={3}>
+                        <Text fontSize="md" color="fg.default" mb={1}>
+                          {sentence.japanese}
+                        </Text>
+                        <Text fontSize="sm" color="ai.400">
+                          {sentence.english}
+                        </Text>
+                      </Box>
+                    ))}
+                  </VStack>
+                </>
+              )}
+
+              {word.exampleSentences && word.exampleSentences.length == 0 && (
+                <>
+                  <Separator my={6} borderColor="ai.100" />
+                  <VStack gap={4} align="stretch">
+                    <Text color="ai.400">Unfortunately, there are no example sentences available for this word.</Text>
+                  </VStack>
+                </>
               )}
             </Box>
           )}
