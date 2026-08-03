@@ -18,11 +18,10 @@ public sealed class TatoebaClient
         // Note: "trans:lang" contains a colon, so it must be percent-encoded (%3A) in the raw query string.
         var query = $"?lang=jpn" +
                     $"&q={Uri.EscapeDataString(word)}" +
-                    $"&word_count=5-10" +
-                    $"&has_audio=yes" +
                     $"&origin=translation" +
                     $"&trans%3Alang=eng" +
-                    $"&sort=relevance";
+                    $"&sort=relevance" + 
+                    $"&limit={count}";
 
         var response = await _httpClient.GetAsync($"{apiUrl}{query}");
         response.EnsureSuccessStatusCode();
