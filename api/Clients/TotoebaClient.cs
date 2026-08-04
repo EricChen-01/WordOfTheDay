@@ -18,7 +18,6 @@ public sealed class TatoebaClient
         // Note: "trans:lang" contains a colon, so it must be percent-encoded (%3A) in the raw query string.
         var query = $"?lang=jpn" +
                     $"&q={Uri.EscapeDataString(word)}" +
-                    $"&origin=translation" +
                     $"&trans%3Alang=eng" +
                     $"&sort=relevance" + 
                     $"&limit={count}";
