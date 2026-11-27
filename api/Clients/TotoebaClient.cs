@@ -23,7 +23,11 @@ public sealed class TatoebaClient
                     $"&limit={count}";
 
         var response = await _httpClient.GetAsync($"{apiUrl}{query}");
-        response.EnsureSuccessStatusCode();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return [];
+        }  
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<TatoebaSentenceResponse>(content);

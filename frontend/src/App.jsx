@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react"
 import "./App.css"
 
-const API_URL = import.meta.env.VITE_API_URL || "https://wordoftheday.azurewebsites.net/api/WordOfTheDay"
+const API_URL = (import.meta.env.VITE_USE_DEV ? import.meta.env.VITE_API_URL : "https://wordoftheday.azurewebsites.net/api/WordOfTheDay")
 
 function getLocalDate() {
   const now = new Date()
@@ -52,7 +52,7 @@ function getNextUTCMidnightLocalTime() {
 
 function App() {
   const [word, setWord] = useState(null)
-  const [status, setStatus] = useState("loading") // loading | success | error
+  const [status, setStatus] = useState("loading") // loading | success | error | noword
   const hasFetched = useRef(false)
 
   useEffect(() => {
@@ -63,10 +63,18 @@ function App() {
 
     fetch(`${API_URL}`)
       .then((res) => {
-        if (!res.ok) throw new Error(`API returned ${res.status}`)
+        if (res.status === 404) {
+          setStatus("noword"); 
+          return null
+        }
+        else if (!res.ok) {
+          throw new Error(`API returned ${res.status}`)
+        }
+
         return res.json()
       })
       .then((data) => {
+        if (!data) return
         setWord(data)
         setStatus("success")
       })
@@ -121,10 +129,28 @@ function App() {
               textAlign="center"
             >
               <Text color="shu.500" fontWeight="medium">
-                Couldn't load today's word.
+                backend error.
               </Text>
               <Text color="ai.400" fontSize="sm" mt={2}>
-                Check that the API is running and try refreshing.
+                Please check if the API is running.
+              </Text>
+            </Box>
+          )}
+
+          {status === "noword" && (
+            <Box
+              bg="white"
+              borderRadius="lg"
+              border="1px solid"
+              borderColor="ai.100"
+              p={10}
+              textAlign="center"
+            >
+              <Text color="shu.500" fontWeight="medium">
+                No word for today.
+              </Text>
+              <Text color="ai.400" fontSize="sm" mt={2}>
+                Please check if the API is running. (backend returned 404)
               </Text>
             </Box>
           )}
